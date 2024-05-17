@@ -59,6 +59,7 @@ export async function getLoggedInUser() {
         cookies().delete('appwrite-sesstion')
         await account.deleteSession('current')
     } catch (error) {
-        
+        return false
+
     }
   }
