@@ -5,7 +5,8 @@ import TotalBalanceBox from '@/components/TotalBalanceBox';
 import { useAccountsDetails } from '@/hooks/useAccountsDetails';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
-import React from 'react';
+import React, { Suspense } from 'react';
+import Loading from './loading';
 
 
 const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
@@ -36,35 +37,37 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
     const account = await getAccount({ appwriteItemId })
     return (
-        <section className='home'>
-            <div className='home-content'>
-                <header className='home-header'>
-                    <HeaderBox
-                        type="greeting"
-                        title="Welcome"
-                        user={loggedIn?.firstName || 'Guest'}
-                        subtext="Access and manage your account and transactions efficiently"
-                    />
-                    <TotalBalanceBox
+        <Suspense fallback={<Loading />}>
+            <section className='home'>
+                <div className='home-content'>
+                    <header className='home-header'>
+                        <HeaderBox
+                            type="greeting"
+                            title="Welcome"
+                            user={loggedIn?.firstName || 'Guest'}
+                            subtext="Access and manage your account and transactions efficiently"
+                        />
+                        <TotalBalanceBox
+                            accounts={accountsData}
+                            totalBanks={accounts?.totalBanks}
+                            totalCurrentBalance={accounts?.totalCurrentBalance}
+                        />
+                    </header>
+                    <RecentTransactions
                         accounts={accountsData}
-                        totalBanks={accounts?.totalBanks}
-                        totalCurrentBalance={accounts?.totalCurrentBalance}
+                        transactions={account?.transactions}
+                        appwriteItemId={appwriteItemId}
+                        page={currentPage}
                     />
-                </header>
-                <RecentTransactions
-                    accounts={accountsData}
-                    transactions={account?.transactions}
-                    appwriteItemId={appwriteItemId}
-                    page={currentPage}
-                />
-            </div>
+                </div>
 
-            <RightSidebar
-                user={loggedIn}
-                transactions={account?.transactions}
-                banks={accountsData.slice(0, 2)}
-            />
-        </section>
+                <RightSidebar
+                    user={loggedIn}
+                    transactions={account?.transactions}
+                    banks={accountsData.slice(0, 2)}
+                />
+            </section>
+        </Suspense>
     );
 };
 
