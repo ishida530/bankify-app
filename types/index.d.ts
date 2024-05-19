@@ -60,7 +60,7 @@ declare type Account = {
   type: string;
   subtype: string;
   appwriteItemId: string;
-  sharableId: string;
+  shareableId: string;
 };
 
 declare type Transaction = {
@@ -89,7 +89,7 @@ declare type Bank = {
   accessToken: string;
   fundingSourceUrl: string;
   userId: string;
-  sharableId: string;
+  shareableId: string;
 };
 
 declare type AccountTypes =
@@ -217,7 +217,7 @@ declare interface FooterProps {
 declare interface RightSidebarProps {
   user: User;
   transactions: Transaction[];
-  banks: Bank[] & Account[];
+  banks: (Bank[] & Account[]) | banksAccountsResponse[];
 }
 
 declare interface SiderbarProps {
@@ -327,4 +327,23 @@ declare interface getBankProps {
 
 declare interface getBankByAccountIdProps {
   accountId: string;
+}
+
+declare interface useAccountsDetailsProps {
+  id: string | string[] | undefined,
+}
+
+interface banksAccountsResponse {
+  appwriteItemId: string
+  availableBalance: number
+  currentBalance: number,
+  id: string,
+  $id?: string,
+  institutionId: string,
+  mask: string,
+  name: string,
+  officialName: string,
+  shareableId: string,
+  subtype: string,
+  type: string
 }
