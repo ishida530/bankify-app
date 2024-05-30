@@ -329,10 +329,6 @@ declare interface getBankByAccountIdProps {
   accountId: string;
 }
 
-declare interface useAccountsDetailsProps {
-  id: string | string[] | undefined,
-}
-
 interface banksAccountsResponse {
   appwriteItemId: string
   availableBalance: number

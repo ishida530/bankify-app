@@ -2,7 +2,6 @@ import HeaderBox from '@/components/HeaderBox';
 import RecentTransactions from '@/components/RecentTransactions';
 import RightSidebar from '@/components/RightSidebar';
 import TotalBalanceBox from '@/components/TotalBalanceBox';
-import { useAccountsDetails } from '@/hooks/useAccountsDetails';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import React, { Suspense } from 'react';
@@ -10,20 +9,7 @@ import Loading from './loading';
 
 
 const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
-    // const { loggedIn, accounts, account, loading } = useAccountsDetails({ id });
 
-    // if (loading) {
-    //     return <div>Loading...</div>;
-    // }
-
-    // if (!loggedIn || !accounts || !account) {
-    //     return <div>Error loading data.</div>;
-    // }
-
-    // const accountsData = accounts.data;
-    // const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId;
-
-    // const currentPage = Number(page as string) || 1;
     const currentPage = Number(page as string) || 1;
     const loggedIn = await getLoggedInUser();
     const accounts = await getAccounts({
